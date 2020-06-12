@@ -10,7 +10,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
-
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Calendar;
+import java.text.ParseException;
 
 public class AIFramework {
 	
@@ -95,7 +98,6 @@ public class AIFramework {
 	 * @return none
 	 * @exception none
 	 */
-	
 	public void printListInfo(List<String> list) {
 		System.out.println("Size of the list: " + list.size());
 		for (int p=0; p<list.size(); p++) {
@@ -103,6 +105,30 @@ public class AIFramework {
 		}
 	}
 	
+	/**
+	 * Gets the current hour in 24-hour clock/military time.
+	 *
+	 * @param none
+	 * @return int containing the current hour in military time
+	 * @exception ParseException if there is a failure to parse the Date object.
+	 */
+	public int currentHour() {
+		Calendar rightNow = Calendar.getInstance();
+		Integer currentHour = rightNow.get(Calendar.HOUR_OF_DAY);
+		SimpleDateFormat df = new SimpleDateFormat("HH");
+		
+		Date date = null;
+		String output = null;
+		
+		try {
+			date = df.parse(currentHour.toString());
+			output = df.format(date);
+//			System.out.println(output);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return Integer.parseInt(output);
+	}
 	// -----------------------------------------------------------------------------
 	
 	// Contingency methods -- these are hard-coded in as preliminary methods that I could test out so that the machine could learn from me.
@@ -145,6 +171,13 @@ public class AIFramework {
 		//input.close();
 	}
 	
+	/**
+	 * Terminates the program.
+	 *
+	 * @param none
+	 * @return none
+	 * @exception none
+	 */
 	public void terminate() {
 		System.exit(1);
 	}
@@ -632,16 +665,47 @@ public class AIFramework {
 	// ALGORITHMS THAT ALLOW THE PROGRAM TO BE CAPABLE OF MACHINE LEARNING.
 	// -----------------------------------------------------------------------------
 	
-	public void wordAssociation(Scanner input) {
+	public void wordAssociationAlgorithm(Scanner input) {
 		// ...
 	}
+	/**
+	 * Greeting algorithm determining what phrase to say to the administrator.
+	 *
+	 * @param Scanner input object.
+	 * @return the appropriate greeting in a String object
+	 * @exception SQLException if a database or query error occurs.
+	 * 
+	 */
+	public String greetingAlgorithm(Scanner input) {
+		String greeting = "";
+		int currentHour = currentHour();
+		try {
+			ResultSet tableRecords = selectTableRecords(input, "greetings");
+
+			while (tableRecords.next()) {	
+				// evening statement
+				if (currentHour >= 0 && currentHour < 6) {
+					greeting = tableRecords.getString(1);
+				}
+				// Debugging purposes
+				if (greeting.isEmpty()) {
+					System.out.println("greeting is empty");
+				}
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return greeting + ", " + admin;
+	}
+	
 	// Driver method
 	public AIFramework() {
 		connect();
 		
 		Scanner sc = new Scanner(System.in);
+		System.out.println(greetingAlgorithm(sc));
 		
-		System.out.println("Hello.");
 		while (true) {
 			
 			// listen...
