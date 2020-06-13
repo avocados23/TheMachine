@@ -13,7 +13,7 @@ packages and project.
 
 Take a look within the AIFramework.java main method. You will see the contingency prompts that I hard-coded.
 Before you can use these commands, the word learning algorithm will ask you to identify these words. The words
-that are used within the contigency prompts that refer to commands are referred to as protected words. Thus,
+that are used within the contigency prompts that refer to commands are protected words. Thus,
 when you are asked if this word is a protected word, type "y" or "yes".
 
 ```
