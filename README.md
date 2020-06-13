@@ -64,7 +64,7 @@ when you are asked if this word is a protected word, type "y" or "yes".
 >> whoami
 I do not recognize the word whoami. Is this a typo or a new word?
 >> new word
-(...)
+...
 >> You are admin
 ```
 
