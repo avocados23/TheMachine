@@ -10,7 +10,7 @@ You can clone my repository to a local remote folder within your computer throug
 
 ### Prerequisites
 
-You will need Java, MySQL, and Git installed on your computer to work on this project. Currently, I am using the Eclipse IDE to manage and track my Java packages and project. I am using Sequel Pro to manage the contents of my MySQL database as well. 
+You will need Java, MySQL, Git, and a database client installed on your computer to work on this project. Currently, I am using the Eclipse IDE to manage and track my Java packages and project. I am using Sequel Pro to manage the contents of my MySQL database as well. 
 
 ### Setting Up Your Database
 
