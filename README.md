@@ -6,8 +6,8 @@ This also gave me practice into working with more advanced data structures, such
 
 ## Prerequisites
 
-You will need Java and MySQL to work on this project. Currently, I am using the Eclipse IDE to manage and track my Java
-packages and project.
+You will need Java, MySQL, and Git installed on your computer to work on this project. Currently, I am using the Eclipse IDE to manage and track my Java
+packages and project. 
 
 ## Setting It Up
 
