@@ -735,7 +735,7 @@ public class AIFramework {
 		    		int frequency = rs.getInt("frequency") + 1;
 		    		updateQuery("UPDATE words SET frequency = " + frequency + " WHERE word = '" + word + "'");
 		    	} else {
-		    		System.out.println("I do not recognize this word. Is this a typo or a new word?");
+		    		System.out.println("I do not recognize the word " + word + ". Is this a typo or a new word?");
 		    		String console = input.nextLine();
 		    		
 		    		if (console.contains("typo") || console.contains("yes")) {
@@ -837,7 +837,7 @@ public class AIFramework {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return greeting + ", " + admin;
+		return greeting + ", " + admin + ".";
 	}
 	
 	// Driver method
