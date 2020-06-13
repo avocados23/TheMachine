@@ -67,7 +67,7 @@ public class AIFramework {
 			String pwd = Admin.returnAdminPwd();
 			
 			myConn = DriverManager.getConnection(url, admin, pwd);
-			load();
+//			load();
 			
 		} catch (SQLException e) {
 			throw new IllegalStateException("Error connecting to neural database.", e);
@@ -244,7 +244,7 @@ public class AIFramework {
 			String inputtedDataType = input.nextLine();
 			
 			// varchar decision handling portion
-			if(inputtedDataType.contains("varchar")) {
+			if(inputtedDataType.equalsIgnoreCase("varchar")) {
 				System.out.println("Reminder that the default varchar limit is 255. Shall this be the case here?");
 				String choice = input.nextLine();
 				
@@ -342,7 +342,7 @@ public class AIFramework {
 	 * Selects the table and extracts all its records. This method also utilizes verifyTable().
 	 *
 	 * @param the Scanner object that the program will listen with, and String table_name 
-	 * @return none
+	 * @return ResultSet containing all the records from that table.
 	 * @exception SQLException if a database or query error occurs
 	 * 
 	 * NOTE: READ SOMEWHERE THAT PASSING A RESULTSET WITHIN A PUBLIC METHOD IS A BAD IDEA. In the future, we might need to revise this method utilizing Lists.
@@ -365,6 +365,45 @@ public class AIFramework {
 			
 		} else {
 			System.out.println("The table you just mentioned does not exist in my databases.");
+		}
+		return rs;
+	}
+	
+	// Autonomous database functions
+	
+	/**
+	 * Updates a table autonomously. This can also be used for insert queries.
+	 *
+	 * @param String object of the specific query.
+	 * @return none
+	 * @exception SQLException if a database or query error occurs
+	 * 
+	 */
+	public void updateQuery(String query) {
+		try {
+			Statement stmt = myConn.createStatement();
+			stmt.executeUpdate(query);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Selects an individual record from a table autonomously.
+	 *
+	 * @param String object of the specific query.
+	 * @return ResultSet containing the individual data from that specific record.
+	 * @exception SQLException if a database or query error occurs
+	 * 
+	 * NOTE: READ SOMEWHERE THAT PASSING A RESULTSET WITHIN A PUBLIC METHOD IS A BAD IDEA. In the future, we might need to revise this method utilizing Lists.
+	 */
+	public ResultSet selectQuery(String query) {
+		ResultSet rs = null;
+		try {
+			Statement stmt = myConn.createStatement();
+			rs = stmt.executeQuery(query);
+		} catch (SQLException e) {
+			throw new IllegalStateException("Something went wrong in gathering data from the neural network.", e);
 		}
 		return rs;
 	}
@@ -448,7 +487,7 @@ public class AIFramework {
 		return columnTypeList; // note that column types are returned as integers, not STRINGS
 	}
 	
-	// Mutator methods
+	// Mutator methods for the database
 	
 	/**
 	 * Inserts data into the table.
@@ -660,12 +699,103 @@ public class AIFramework {
 		}
 		
 	}
-	// -----------------------------------------------------------------------------
 	
+	// -----------------------------------------------------------------------------
 	// ALGORITHMS THAT ALLOW THE PROGRAM TO BE CAPABLE OF MACHINE LEARNING.
 	// -----------------------------------------------------------------------------
 	
-	public void wordAssociationAlgorithm(Scanner input) {
+	public void simpleSentenceAlgorithm(Scanner input) {
+		// Format: build a simple sentence.
+	}
+	
+	/**
+	 * Word learning algorithm (NOT AUTONOMOUS) that learns English through the console.
+	 *
+	 * @param Scanner input object and the message passed through as a String object
+	 * @return none
+	 * @exception SQLException if a database or query error occurs.
+	 * 
+	 */
+	public void wordLearningAlgorithm(Scanner input, String message) {
+		
+		// dissect the sentence and break it up into an array
+		// words table structure, for reference
+		// word VARCHAR (255), type int (11), tense int (11), ID int (11) PRIMARY KEY, frequency int (11)
+		
+		String[] words = message.split("\\W+"); // removes non-alphabetic characters occurring one or more times
+		for (int i = 0; i < words.length; i++) {
+		    words[i] = words[i].replaceAll("[^\\w]", "");
+		    
+		    String word = words[i].toLowerCase();
+		    ResultSet rs = selectQuery("SELECT frequency FROM words WHERE word = '" + word + "'"); // find word in database
+		    try {
+		    	int protectedWord = 0; // false
+		    	
+		    	if (rs.next()) { // if the word exists within the database
+		    		int frequency = rs.getInt("frequency") + 1;
+		    		updateQuery("UPDATE words SET frequency = " + frequency + " WHERE word = '" + word + "'");
+		    	} else {
+		    		System.out.println("I do not recognize this word. Is this a typo or a new word?");
+		    		String console = input.nextLine();
+		    		
+		    		if (console.contains("typo") || console.contains("yes")) {
+		    			System.out.println("Please print the correct spelling of this word.");
+		    			String newWord = input.nextLine();
+		    			word = newWord.toLowerCase();
+		    		}
+		    		System.out.println("What type of word is this?");
+		    		System.out.println("0: noun -- e.g; dog");
+		    		System.out.println("1: verb -- e.g; run");
+		    		System.out.println("2: adjective -- e.g; happy");
+		    		System.out.println("3: adverb -- e.g; sadly");
+		    		System.out.println("4: pronoun -- e.g; He/she");
+		    		System.out.println("5: preposition -- e.g; of, through, over, before, between");
+		    		System.out.println("6: determiner -- e.g; the, those, that");
+		    		System.out.println("7: interjection -- e.g; alas, amen, eureka");
+		    			
+		    		System.out.println();
+		    		String typeWord = input.nextLine(); // convert this to an int
+		    		int type = Integer.parseInt(typeWord);
+		    		
+		    		// Handle protected word case
+		    		System.out.println("Is this word also a protected word?");
+		    		String protectedStatus = input.nextLine();
+		    		
+		    		if (protectedStatus.contains("y") || protectedStatus.equalsIgnoreCase("yes")) {
+		    			protectedWord = 1; // change to true
+		    		}
+		    			
+		    		System.out.println("What tense of word is this?");
+		    		System.out.println("0: present simple -- e.g; I study English");
+		    		System.out.println("1: past -- e.g; I studied English");
+		    		System.out.println("2: not applicable -- not a verb");
+		    			
+		    		System.out.println();
+		    		String tenseWord = input.nextLine();
+		    		int tense = Integer.parseInt(tenseWord);
+		    		String query = "INSERT INTO words (word, type, tense, frequency, protected) VALUES ('" + word + "', " + type + ", " + tense + ", 0, " + protectedWord + ")";
+		    		
+		    		// For debugging purposes
+//		    		System.out.println(query);
+		    		
+		    		updateQuery(query);
+		    	}
+		    } catch (SQLException e) {
+		    	e.printStackTrace();
+		    }
+		    
+		}
+	}
+	
+	/**
+	 * Autonomous word learning algorithm -- machine learning algorithm
+	 *
+	 * @param none
+	 * @return none
+	 * @exception SQLException if a database or query error occurs.
+	 * 
+	 */
+	public void autonomousLearningAlgorithm(String message) {
 		// ...
 	}
 	/**
@@ -675,18 +805,29 @@ public class AIFramework {
 	 * @return the appropriate greeting in a String object
 	 * @exception SQLException if a database or query error occurs.
 	 * 
+	 * note: this algorithm will be built upon with a randomizer on which phrase to say.
+	 * 
 	 */
 	public String greetingAlgorithm(Scanner input) {
 		String greeting = "";
 		int currentHour = currentHour();
+//		System.out.println(currentHour());
+		
 		try {
 			ResultSet tableRecords = selectTableRecords(input, "greetings");
-
+			
 			while (tableRecords.next()) {	
-				// evening statement
-				if (currentHour >= 0 && currentHour < 6) {
+				if ((currentHour >= 0 && currentHour < 6) || (currentHour >= 18 && currentHour <= 23)) { // between the hours of 12-6am, 6pm-11pm
 					greeting = tableRecords.getString(1);
+					break;
+				} else if ((currentHour >= 6 && currentHour < 12)) { // between the hours of 6am to 12pm
+					greeting = tableRecords.getString(1);
+					break;
+				} else if ((currentHour >= 12 && currentHour < 18)) { // between the hours of 12pm to 6pm
+					greeting = tableRecords.getString(1);
+					break;
 				}
+				
 				// Debugging purposes
 				if (greeting.isEmpty()) {
 					System.out.println("greeting is empty");
@@ -712,7 +853,10 @@ public class AIFramework {
 			
 			String inputtedText = sc.nextLine();
 			
+			wordLearningAlgorithm(sc, inputtedText);
+			
 			// These are the contingency prompts
+			// We can revise the contingency prompts by forming it into a binary decision tree
 			
 			if (inputtedText.contains("change") && inputtedText.contains("name")) { // Changing the program's default name
 				changeAIName(sc);
@@ -735,7 +879,7 @@ public class AIFramework {
 				}
 				
 			}
-			if (inputtedText.contains("insert") && inputtedText.contains("table")) { // Inserts data into a table
+			if (inputtedText.contains("insert") && (inputtedText.contains("table") || inputtedText.contains("data"))) { // Inserts data into a table
 				System.out.println("What table would you like to insert into?");
 				String input = sc.nextLine();
 				insertIntoTable(sc, input);
