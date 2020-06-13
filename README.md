@@ -41,7 +41,7 @@ Port: 3306
 ```
 You can connect to the database through SSL also; it is not required.
 
-### Setting Up Commands
+### Setting Up Your Tables
 
 Before running the program, deactivate the word learning algorithm within the AIFramework() method, else your code will fail. Follow these steps and set up the following tables:
 
@@ -50,6 +50,11 @@ CREATE TABLE `greetings` (phrase VARCHAR (255), ID int AUTO_INCREMENT, PRIMARY K
 CREATE TABLE `words` (word VARCHAR (255), type int, tense int, ID AUTO_INCREMENT, frequency int, protected int, PRIMARY KEY (ID))
 ```
 
+You may run these through a query on your database client or through the console of the program. It is up to you.
+
+### Setting Up Your Commands
+
+Now that you are done setting up the tables for the database, you may turn on the word learning algorithm.
 Take a look within the AIFramework.java main method. You will see the contingency prompts that I hard-coded.
 Before you can use these commands, the word learning algorithm will ask you to identify these words. The words
 that are used within the contigency prompts that refer to commands are protected words. Thus,
