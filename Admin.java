@@ -7,7 +7,7 @@ public class Admin {
 	// These variables should only be accessed through this file.
 	private static String url = "jdbc:mysql://localhost:3306/ai_db?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 	private static String user = "admin";
-	private static String pwd = "linksys125";
+	private static String pwd = "test123";
 	
 	/**
 	 * Returns the identity of the administrator.
