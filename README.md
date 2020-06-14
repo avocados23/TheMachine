@@ -23,13 +23,13 @@ Currently, I am using IntelliJ IDEA to manage and track my Java packages and pro
 ### Libraries
 
 This program utilizes several external libraries to run.
-* [JDBC (Java Database Connectivity)] (https://dev.mysql.com/downloads/connector/j/)
+* [JDBC (Java Database Connectivity)](https://dev.mysql.com/downloads/connector/j/)
 * Selenium WebDriver 
 
 ### Executable Files
 
 In order for the beta testing suite to work, along with Selenium, you will need:
-* [ChromeDriver] (https://chromedriver.chromium.org/downloads)
+* [ChromeDriver](https://chromedriver.chromium.org/downloads)
 
 ## Configuring The Machine
 
