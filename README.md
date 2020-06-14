@@ -18,18 +18,18 @@ You will need:
 
 Currently, I am using IntelliJ IDEA to manage and track my Java packages and project. I am using Sequel Pro to manage the contents of my MySQL database as well. 
 
-It is heavily preferred that you use the IntelliJ IDEA for ease of dependency and external library management.
+** It is heavily preferred that you use the IntelliJ IDEA for ease of dependency and external library management. **
 
 ### Libraries
 
 This program utilizes several external libraries to run.
-* JDBC (Java Database Connectivity)
-* Selenium WebDriver
+* [JDBC (Java Database Connectivity)] (https://dev.mysql.com/downloads/connector/j/)
+* Selenium WebDriver 
 
 ### Executable Files
 
 In order for the beta testing suite to work, along with Selenium, you will need:
-* ChromeDriver
+* [ChromeDriver] (https://chromedriver.chromium.org/downloads)
 
 ## Configuring The Machine
 
