@@ -49,7 +49,7 @@ You can connect to the database through SSL also; it is not required.
 
 ### Setting Up Your Tables
 
-Before running the program, deactivate the word learning algorithm within the AIFramework() method, else your code will fail. Follow these steps and set up the following tables:
+Before running the program, deactivate the word learning algorithm within the AIFramework() method, else your code will fail and return a SQLException. Follow these steps and set up the following tables:
 
 ``` 
 CREATE TABLE `greetings` (phrase VARCHAR (255), ID int AUTO_INCREMENT, PRIMARY KEY (ID))
