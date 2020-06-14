@@ -870,26 +870,25 @@ public class AIFramework {
 //		System.out.println(currentHour());
 		
 		try {
-			ResultSet tableRecords = selectTableRecords(input, "greetings");
-			
-			while (tableRecords.next()) {	
-				if ((currentHour >= 0 && currentHour < 6) || (currentHour >= 18 && currentHour <= 23)) { // between the hours of 12-6am, 6pm-11pm
-					greeting = tableRecords.getString(1);
-					break;
-				} else if ((currentHour >= 6 && currentHour < 12)) { // between the hours of 6am to 12pm
-					greeting = tableRecords.getString(1);
-					break;
-				} else if ((currentHour >= 12 && currentHour < 18)) { // between the hours of 12pm to 6pm
-					greeting = tableRecords.getString(1);
-					break;
-				}
-				
-				// Debugging purposes
-				if (greeting.isEmpty()) {
-					System.out.println("greeting is empty");
-				}
+			ResultSet tableRecords = selectTableRecords(input, "greetings"); // retrieve all instances of phrases
+			LinkedList<String> greetings = new LinkedList<String>();
+
+			while(tableRecords.next()) { // insert all phrases into the LinkedList
+				greetings.add(tableRecords.getString(1));
 			}
 
+			for (int i=0; i<greetings.size(); i++) {
+				if ((currentHour >= 0 && currentHour < 6 || currentHour >= 18 && currentHour <= 23) && greetings.get(i).equals("Good evening")) {
+					// select good evening
+					greeting = greetings.get(i);
+				} else if ((currentHour >= 6 && currentHour < 12) && (greetings.get(i).equals("Good evening"))) {
+					// select good morning
+					greeting = greetings.get(i);
+				} else {
+					// good afternoon
+					greeting = greetings.get(i);
+				}
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
