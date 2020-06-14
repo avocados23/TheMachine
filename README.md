@@ -11,12 +11,25 @@ You can clone my repository to a local remote folder within your computer throug
 ### Prerequisites
 
 You will need:
-* Java 
+* Java SE 11.0, minimum
 * MySQL
 * Git
 * A database client
 
-Currently, I am using the Eclipse IDE to manage and track my Java packages and project. I am using Sequel Pro to manage the contents of my MySQL database as well. 
+Currently, I am using IntelliJ IDEA to manage and track my Java packages and project. I am using Sequel Pro to manage the contents of my MySQL database as well. 
+
+It is heavily preferred that you use the IntelliJ IDEA for ease of dependency and external library management.
+
+### Libraries
+
+This program utilizes several external libraries to run.
+* JDBC (Java Database Connectivity)
+* Selenium WebDriver
+
+### Executable Files
+
+In order for the beta testing suite to work, along with Selenium, you will need:
+* ChromeDriver
 
 ### Setting Up Your Database
 
