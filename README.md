@@ -13,7 +13,7 @@ This also gave me practice into working with more advanced data structures, such
 
 ## Getting Started
 
-You can clone my repository to a local remote folder within your computer through Git to load my files.
+You can clone my repository to a local remote folder within your computer through Git to load my files. I used Homebrew to manage my library and package downloads.
 
 ### Prerequisites
 
