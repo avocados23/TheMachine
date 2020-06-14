@@ -2,7 +2,7 @@
 
 This is my artificial intelligence side project that I created to practice and expand my knowledge on machine learning and algorithms. 
 It uses a MySQL database to store its data and then utilizes the functions and methods I have coded to sort that data out. 
-This also gave me practice into working with more advanced data structures, such as Trees and Maps. However, you may feel free to use another database platform, but you will have to adjust certain SQL queries to match the format of your desired database platform within the autonomous and non-autonomous methods within AIFramework.java
+This also gave me practice into working with more advanced data structures, such as Trees and Maps. However, you may feel free to use another database platform, but you will have to adjust certain SQL queries to match the format of your desired database platform within the autonomous and non-autonomous methods within AIFramework.java.
 
 ## Getting Started
 
@@ -49,11 +49,11 @@ You can connect to the database through SSL also; it is not required.
 
 ### Setting Up Your Tables
 
-Before running the program, deactivate the word learning algorithm within the AIFramework() method, else your code will fail. Follow these steps and set up the following tables:
+Before running the program, deactivate the word learning algorithm within the AIFramework() method, else your code will fail and return a SQLException. Follow these steps and set up the following tables:
 
 ``` 
 CREATE TABLE `greetings` (phrase VARCHAR (255), ID int AUTO_INCREMENT, PRIMARY KEY (ID))
-CREATE TABLE `words` (word VARCHAR (255), type int, tense int, ID AUTO_INCREMENT, frequency int, protected int, PRIMARY KEY (ID))
+CREATE TABLE `words` (word VARCHAR (255), type int, tense int, ID AUTO_INCREMENT, frequency int, protected int, command VARCHAR (255), PRIMARY KEY (ID))
 ```
 
 You may run these through a query on your database client or through the console of the program. It is up to you.
