@@ -2,7 +2,7 @@
 
 This is my artificial intelligence side project that I created to practice and expand my knowledge on machine learning and algorithms. 
 It uses a MySQL database to store its data and then utilizes the functions and methods I have coded to sort that data out. 
-This also gave me practice into working with more advanced data structures, such as Trees and Maps. However, you may feel free to use another database platform, but you will have to adjust certain SQL queries to match the format of your desired database platform within the autonomous and non-autonomous methods within AIFramework.java
+This also gave me practice into working with more advanced data structures, such as Trees and Maps. However, you may feel free to use another database platform, but you will have to adjust certain SQL queries to match the format of your desired database platform within the autonomous and non-autonomous methods within AIFramework.java.
 
 ## Getting Started
 
