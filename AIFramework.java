@@ -802,7 +802,7 @@ public class AIFramework {
 		    		System.out.println();
 		    		String tenseWord = input.nextLine();
 		    		int tense = Integer.parseInt(tenseWord);
-		    		String query = "INSERT INTO words (word, type, tense, frequency, protected, command) VALUES ('" + word + "', " + type + ", " + tense + ", 0, " + protectedWord + ", " + "' " + functionInput + "')";
+		    		String query = "INSERT INTO words (word, type, tense, frequency, protected, command) VALUES ('" + word + "', " + type + ", " + tense + ", 1, " + protectedWord + ", " + "' " + functionInput + "')";
 		    		
 		    		// For debugging purposes
 //		    		System.out.println(query);
