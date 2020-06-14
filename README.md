@@ -18,7 +18,7 @@ You will need:
 
 Currently, I am using IntelliJ IDEA to manage and track my Java packages and project. I am using Sequel Pro to manage the contents of my MySQL database as well. 
 
-**It is heavily preferred that you use the IntelliJ IDEA for ease of dependency and external library management.**,
+**It is heavily preferred that you use the IntelliJ IDEA for ease of dependency and external library management, **
 ***because the following instructions I wrote on this README assume that you are using IntelliJ IDEA.***
 
 ### Libraries
