@@ -53,7 +53,7 @@ Before running the program, deactivate the word learning algorithm within the AI
 
 ``` 
 CREATE TABLE `greetings` (phrase VARCHAR (255), ID int AUTO_INCREMENT, PRIMARY KEY (ID))
-CREATE TABLE `words` (word VARCHAR (255), type int, tense int, ID AUTO_INCREMENT, frequency int, protected int, PRIMARY KEY (ID))
+CREATE TABLE `words` (word VARCHAR (255), type int, tense int, ID AUTO_INCREMENT, frequency int, protected int, command VARCHAR (255), PRIMARY KEY (ID))
 ```
 
 You may run these through a query on your database client or through the console of the program. It is up to you.
