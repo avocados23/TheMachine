@@ -1,12 +1,19 @@
 # ai -- The Machine
 
+[![Generic badge](https://img.shields.io/badge/java-11.0+-blue.svg)](https://shields.io/)
+[![Generic badge](https://img.shields.io/badge/mysql-8.0+-red.svg)](https://shields.io/)
+[![Generic badge](https://img.shields.io/badge/selenium-3.141.59-green.svg)](https://shields.io/)
+
+
 This is my artificial intelligence side project that I created to practice and expand my knowledge on machine learning and algorithms. 
 It uses a MySQL database to store its data and then utilizes the functions and methods I have coded to sort that data out. 
 This also gave me practice into working with more advanced data structures, such as Trees and Maps. However, you may feel free to use another database platform, but you will have to adjust certain SQL queries to match the format of your desired database platform within the autonomous and non-autonomous methods within AIFramework.java.
 
+---
+
 ## Getting Started
 
-You can clone my repository to a local remote folder within your computer through Git to load my files.
+You can clone my repository to a local remote folder within your computer through Git to load my files. I used Homebrew to manage my library and package downloads.
 
 ### Prerequisites
 
@@ -15,21 +22,31 @@ You will need:
 * MySQL
 * Git
 * A database client
+* Google Chrome
 
-Currently, I am using IntelliJ IDEA to manage and track my Java packages and project. I am using Sequel Pro to manage the contents of my MySQL database as well. 
+Currently, I am using IntelliJ IDEA to manage and track my Java packages and project. I am using Sequel Pro to manage the contents of my MySQL database as well. Google Chrome is also required as it is the browser of choice for The Machine when accessing information from the Internet.
 
-It is heavily preferred that you use the IntelliJ IDEA for ease of dependency and external library management.
+**It is heavily preferred that you use the IntelliJ IDEA for ease of dependency and external library management,** 
+***because the following instructions I wrote on this README assume that you are using IntelliJ IDEA.***
+
+This is because compared to IntelliJ, other IDEs such as Eclipse do not come with the JAR libraries required for The Machine to conduct its machine learning. Libraries that do not come with Eclipse are Guava and Apache Maven, where we will use the latter for our dependency management.
 
 ### Libraries
 
 This program utilizes several external libraries to run.
-* JDBC (Java Database Connectivity)
-* Selenium WebDriver
+* [JDBC (Java Database Connectivity)](https://dev.mysql.com/downloads/connector/j/)
+* Selenium WebDriver -- imported through Maven dependency
 
 ### Executable Files
 
 In order for the beta testing suite to work, along with Selenium, you will need:
-* ChromeDriver
+* [ChromeDriver](https://chromedriver.chromium.org/downloads)
+
+---
+
+## Configuring The Machine
+
+Before you can get The Machine up and running, you must set up its database with the following structure.
 
 ### Setting Up Your Database
 
@@ -87,4 +104,17 @@ I do not recognize the word whoami. Is this a typo or a new word?
 >> You are admin
 ```
 
-more to come...
+## Running the Test Suite
+
+The test suite was created so that The Machine could run each function autonomously to assess for any errors within
+the framework's code. This can be done by running the program through TestSuite.java's main method.
+
+(unfinished)
+
+---
+
+## License
+
+[![GPLv3 license](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://github.com/n1413704/ai/blob/master/LICENSE)
+
+Distributed under the GNU Lesser General Public License v3.0. See LICENSE for more information.

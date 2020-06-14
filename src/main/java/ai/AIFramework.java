@@ -632,12 +632,11 @@ public class AIFramework {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-			Integer indexOfColumn = 0; // default
-			Integer passedInput = 0;
+			int indexOfColumn = 0; // default
+			int passedInput = 0;
 			
 			System.out.println("Which column would you like to edit from this table? Pick by the number. ");
 			String inputtedColumn = input.nextLine();
-			indexOfColumn = Integer.parseInt(inputtedColumn);
 			
 			System.out.println("What is the primary key value of the record you would like to alter? ");
 			String idInput = input.nextLine();
@@ -646,7 +645,7 @@ public class AIFramework {
 				Statement stmt = myConn.createStatement();
 				String selectQuery = "SELECT " + inputtedColumn + " FROM " + table_name + " WHERE " + primaryKey + " = " + idInput;
 				ResultSet rs = stmt.executeQuery(selectQuery);
-				
+
 				ResultSetMetaData rsmd = rs.getMetaData();
 				rs.next();
 				
@@ -752,6 +751,14 @@ public class AIFramework {
 		    			System.out.println("Please print the correct spelling of this word.");
 		    			String newWord = input.nextLine();
 		    			word = newWord.toLowerCase();
+
+		    			// search for if word exists already in database
+
+						ResultSet findExistingTypo = selectQuery("SELECT * from `words` WHERE word = '" + word + "'");
+						if (findExistingTypo.next()) { // if the word exists
+							System.out.println("This word already exists in my neural network. Be a better speller next time, bro.");
+							break;
+						}
 		    		}
 		    		System.out.println("What type of word is this?");
 		    		System.out.println("0: noun -- e.g; dog");
