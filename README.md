@@ -31,6 +31,10 @@ This program utilizes several external libraries to run.
 In order for the beta testing suite to work, along with Selenium, you will need:
 * ChromeDriver
 
+## Configuring The Machine
+
+Before you can get The Machine up and running, you must set up its database with the following structure.
+
 ### Setting Up Your Database
 
 First and foremost, create an empty database.
