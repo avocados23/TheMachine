@@ -1,8 +1,15 @@
 # ai -- The Machine
 
+[![Generic badge](https://img.shields.io/badge/java-11.0+-blue.svg)](https://shields.io/)
+[![Generic badge](https://img.shields.io/badge/mysql-8.0+-red.svg)](https://shields.io/)
+[![Generic badge](https://img.shields.io/badge/selenium-3.141.59-green.svg)](https://shields.io/)
+
+
 This is my artificial intelligence side project that I created to practice and expand my knowledge on machine learning and algorithms. 
 It uses a MySQL database to store its data and then utilizes the functions and methods I have coded to sort that data out. 
 This also gave me practice into working with more advanced data structures, such as Trees and Maps. However, you may feel free to use another database platform, but you will have to adjust certain SQL queries to match the format of your desired database platform within the autonomous and non-autonomous methods within AIFramework.java.
+
+---
 
 ## Getting Started
 
@@ -34,6 +41,8 @@ This program utilizes several external libraries to run.
 
 In order for the beta testing suite to work, along with Selenium, you will need:
 * [ChromeDriver](https://chromedriver.chromium.org/downloads)
+
+--
 
 ## Configuring The Machine
 
@@ -100,4 +109,12 @@ I do not recognize the word whoami. Is this a typo or a new word?
 The test suite was created so that The Machine could run each function autonomously to assess for any errors within
 the framework's code. This can be done by running the program through TestSuite.java's main method.
 
-More to come...
+(unfinished)
+
+---
+
+## License
+
+[![GPLv3 license](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://github.com/n1413704/ai/blob/master/LICENSE)
+
+Distributed under the GNU Lesser General Public License v3.0. See LICENSE for more information.
