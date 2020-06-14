@@ -21,11 +21,13 @@ Currently, I am using IntelliJ IDEA to manage and track my Java packages and pro
 **It is heavily preferred that you use the IntelliJ IDEA for ease of dependency and external library management,** 
 ***because the following instructions I wrote on this README assume that you are using IntelliJ IDEA.***
 
+This is because compared to IntelliJ, other IDEs such as Eclipse do not come with the JAR libraries required for The Machine to conduct its machine learning. Libraries that do not come with Eclipse are Guava and Apache Maven, where we will use the latter for our dependency management.
+
 ### Libraries
 
 This program utilizes several external libraries to run.
 * [JDBC (Java Database Connectivity)](https://dev.mysql.com/downloads/connector/j/)
-* Selenium WebDriver 
+* Selenium WebDriver -- imported through Maven dependency
 
 ### Executable Files
 
