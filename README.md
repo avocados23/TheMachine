@@ -42,7 +42,7 @@ This program utilizes several external libraries to run.
 In order for the beta testing suite to work, along with Selenium, you will need:
 * [ChromeDriver](https://chromedriver.chromium.org/downloads)
 
---
+---
 
 ## Configuring The Machine
 
