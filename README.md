@@ -36,7 +36,7 @@ private static String pwd = ...
 
 Configure these settings with the account that you would like the program to be able to use to access the contents of the database. It is preferred that you use the Sequel Pro client to access the database. Refer to the JDBC documentation on writing the correct URL to go to when accessing your database.
 
-### Sequel Pro Connection Details -- Socket
+### Sequel Pro Connection Details -- Standard/Socket
 ```
 Name: localhost
 Host: 127.0.0.1
