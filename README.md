@@ -15,8 +15,9 @@ You will need:
 * MySQL
 * Git
 * A database client
+* Google Chrome
 
-Currently, I am using IntelliJ IDEA to manage and track my Java packages and project. I am using Sequel Pro to manage the contents of my MySQL database as well. 
+Currently, I am using IntelliJ IDEA to manage and track my Java packages and project. I am using Sequel Pro to manage the contents of my MySQL database as well. Google Chrome is also required as it is the browser of choice for The Machine when accessing information from the Internet.
 
 **It is heavily preferred that you use the IntelliJ IDEA for ease of dependency and external library management,** 
 ***because the following instructions I wrote on this README assume that you are using IntelliJ IDEA.***
@@ -94,4 +95,9 @@ I do not recognize the word whoami. Is this a typo or a new word?
 >> You are admin
 ```
 
-more to come...
+## Running the Test Suite
+
+The test suite was created so that The Machine could run each function autonomously to assess for any errors within
+the framework's code. This can be done by running the program through TestSuite.java's main method.
+
+More to come...
