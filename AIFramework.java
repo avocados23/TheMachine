@@ -9,6 +9,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.HashMap;
 import java.util.Scanner;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -705,7 +708,28 @@ public class AIFramework {
 	// -----------------------------------------------------------------------------
 	
 	public void simpleSentenceAlgorithm(Scanner input) {
+		
 		// Format: build a simple sentence.
+		
+	}
+	
+	/**
+	 * Word processing algorithm that breaks up the message into separate words stored in a String[] array.
+	 *
+	 * @param String message inputed by the computer or through the console
+	 * @return String[] array with the message broken up into its word components
+	 * @exception none
+	 * 
+	 */
+	public String[] processMessageAlgorithm(String message) {
+		
+		String[] words = message.split("\\W+"); // removes non-alphabetic characters occurring one or more times
+		
+		for (int i=0; i< words.length; i++) {
+			words[i] = words[i].replaceAll("[^\\w]", "").toLowerCase(); // makes word lowercase
+		}
+		return words;
+
 	}
 	
 	/**
@@ -718,18 +742,18 @@ public class AIFramework {
 	 */
 	public void wordLearningAlgorithm(Scanner input, String message) {
 		
-		// dissect the sentence and break it up into an array
 		// words table structure, for reference
-		// word VARCHAR (255), type int (11), tense int (11), ID int (11) PRIMARY KEY, frequency int (11)
+		// word VARCHAR (255), type int (11), tense int (11), ID int (11) PRIMARY KEY, frequency int (11), command VARCHAR (255)
 		
 		String[] words = message.split("\\W+"); // removes non-alphabetic characters occurring one or more times
 		for (int i = 0; i < words.length; i++) {
 		    words[i] = words[i].replaceAll("[^\\w]", "");
-		    
 		    String word = words[i].toLowerCase();
 		    ResultSet rs = selectQuery("SELECT frequency FROM words WHERE word = '" + word + "'"); // find word in database
+		    
 		    try {
 		    	int protectedWord = 0; // false
+		    	String functionInput = null;
 		    	
 		    	if (rs.next()) { // if the word exists within the database
 		    		int frequency = rs.getInt("frequency") + 1;
@@ -763,6 +787,11 @@ public class AIFramework {
 		    		
 		    		if (protectedStatus.contains("y") || protectedStatus.equalsIgnoreCase("yes")) {
 		    			protectedWord = 1; // change to true
+		    			
+		    			System.out.println("What function would you like to invoke for this keyword?");
+		    			functionInput = input.nextLine();
+		    			
+		    			
 		    		}
 		    			
 		    		System.out.println("What tense of word is this?");
@@ -773,7 +802,7 @@ public class AIFramework {
 		    		System.out.println();
 		    		String tenseWord = input.nextLine();
 		    		int tense = Integer.parseInt(tenseWord);
-		    		String query = "INSERT INTO words (word, type, tense, frequency, protected) VALUES ('" + word + "', " + type + ", " + tense + ", 0, " + protectedWord + ")";
+		    		String query = "INSERT INTO words (word, type, tense, frequency, protected, command) VALUES ('" + word + "', " + type + ", " + tense + ", 0, " + protectedWord + ", " + "' " + functionInput + "')";
 		    		
 		    		// For debugging purposes
 //		    		System.out.println(query);
@@ -785,6 +814,47 @@ public class AIFramework {
 		    }
 		    
 		}
+	}
+	
+	/**
+	 * Uses the `words` table to form a Map object that connects the protected keywords to the commands wanted to invoke.
+	 *
+	 * @param none
+	 * @return Map<String, LinkedList<String>> connecting the keywords (key) to its commands (values)
+	 * @exception SQLException if a database or query error occurs.
+	 * 
+	 */
+	public Map<String, LinkedList<String>> formProtectedMapAlgorithm() {
+		
+		Map<String, LinkedList<String>> wordsMap = new HashMap<String, LinkedList<String>>(); // HashMap that will map out the commands (key) to its protected words (values)
+		
+		// Select query to find all data records of `command` in the words table
+		String query_commands = "SELECT word, command FROM `words` WHERE protected = 1";
+		ResultSet rs_commands = selectQuery(query_commands);
+		
+		try {
+			while (rs_commands.next()) { // Iterate through the SQL table
+				
+				LinkedList<String> wordsList = new LinkedList<String>(); // creates LinkedList that will store the words
+				String command = rs_commands.getString("command"); // get the command 
+				String key_word = rs_commands.getString("word"); // get the word
+				
+				// condition: if command does not exist as a key, add it as a node...
+				if (!wordsMap.containsKey(command)) {
+					wordsList.addFirst(key_word); // add to the beginning of the LinkedList
+					wordsMap.put(command, wordsList);				
+				} else {
+					// condition: if command does exist as a key BUT does not contain the value linked to the key
+					if (wordsList.indexOf(key_word) == -1) {
+						wordsList.add(key_word); // adds keyword that will activate the command (value to key)
+					}
+				}
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return wordsMap;
 	}
 	
 	/**
@@ -840,8 +910,23 @@ public class AIFramework {
 		return greeting + ", " + admin + ".";
 	}
 	
+	// Debugging methods
+	// DO NOT TOUCH THESE!
+	// -----------------------------------------------------------------------------
+
+	public void showMapContents(Map<String, LinkedList<String>> example) {
+		 example.entrySet().forEach(entry->{
+			    System.out.println(entry.getKey() + " " + entry.getValue());  
+			 });
+	}
+	
+	// -----------------------------------------------------------------------------
+	
 	// Driver method
 	public AIFramework() {
+		
+		// loadup functions
+		
 		connect();
 		
 		Scanner sc = new Scanner(System.in);
@@ -850,6 +935,10 @@ public class AIFramework {
 		while (true) {
 			
 			// listen...
+			
+			// Map will be reformed and recreated on every new loadup.
+			Map<String, LinkedList<String>> protectedWords = formProtectedMapAlgorithm();
+//			showMapContents(protectedWords);
 			
 			String inputtedText = sc.nextLine();
 			
