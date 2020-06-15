@@ -42,8 +42,14 @@ public class AIFramework {
 			}
 		}
 	}
-	
 
+	/**
+	 * Connects to the database.
+	 *
+	 * @param none
+	 * @return none
+	 * @exception SQLException if a database access error occurs
+	 */
 	public void connect() {
 	
 		// System.out.println("Establishing a connection to " + Admin.returnAdminUrl() + "...");
@@ -65,6 +71,7 @@ public class AIFramework {
 		}
 		
 	}
+
 	/**
 	 * Closes the connection to the neural network database.
 	 *
@@ -366,7 +373,7 @@ public class AIFramework {
 	 * @param String object of the specific query.
 	 * @return none
 	 * @exception SQLException if a database or query error occurs
-	 * 
+	 *
 	 */
 	public void updateQuery(String query) {
 		try {
@@ -376,14 +383,14 @@ public class AIFramework {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Selects an individual record from a table autonomously.
 	 *
 	 * @param String object of the specific query.
 	 * @return ResultSet containing the individual data from that specific record.
 	 * @exception SQLException if a database or query error occurs
-	 * 
+	 *
 	 * NOTE: READ SOMEWHERE THAT PASSING A RESULTSET WITHIN A PUBLIC METHOD IS A BAD IDEA. In the future, we might need to revise this method utilizing Lists.
 	 */
 	public ResultSet selectQuery(String query) {
@@ -808,7 +815,7 @@ public class AIFramework {
 		    
 		}
 	}
-	
+
 	/**
 	 * Uses the `words` table to form a Map object that connects the protected keywords to the commands wanted to invoke.
 	 *
