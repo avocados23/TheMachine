@@ -109,7 +109,18 @@ I do not recognize the word whoami. Is this a typo or a new word?
 The test suite was created so that The Machine could run each function autonomously to assess for any errors within
 the framework's code. This can be done by running the program through TestSuite.java's main method.
 
-(unfinished)
+## Word Learning Algorithm
+
+As this README is being updated on June 15th, 2020, the program is capable of learning words autonomously by passing it a .txt file from an online source. The word learning algorithm is located in WordLearningAlgorithm.java. To pass the online text file for the algorithm to read and add to its neural network, go to the main method of the Java program and pass it in the dedicated parameter.
+
+```
+try {
+  new WordLearningAlgorithm(YOUR TEXT FILE HERE)
+} catch (IOException e) {
+  ...
+ ```
+ 
+ more coming soon...
 
 ---
 
