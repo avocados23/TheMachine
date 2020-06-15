@@ -104,6 +104,8 @@ I do not recognize the word whoami. Is this a typo or a new word?
 >> You are admin
 ```
 
+---
+
 ## Running the Test Suite
 
 The test suite was created so that The Machine could run each function autonomously to assess for any errors within
@@ -121,8 +123,6 @@ try {
  ```
  
  more coming soon...
-
----
 
 ## License
 
