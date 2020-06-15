@@ -5,25 +5,50 @@
 
 package ai;
 
+import javax.swing.*;
+import javax.swing.Timer;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.image.BufferStrategy;
+import java.awt.*;
+import java.awt.event.*;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Scanner;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Calendar;
 import java.text.ParseException;
+import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.ArrayList;
+import java.io.File;
+import java.util.concurrent.ThreadLocalRandom;
 
-public class AIFramework {
+
+public class AIFramework extends Canvas implements KeyListener {
 	
 	private String name = "The Machine"; // default name
 	private String admin = ai.Admin.returnAdminIdentity();
 	private Connection myConn;
-	
+	private boolean runProgram = true; // true for turning, false when turning off
+
+	// Screen settings
+	private JFrame frame;
+	private BufferStrategy strategy;
+	private String screenName = "loading";
+
+	// Timer settings
+	private int textTimerValue;
+	private int loadUpSequence = 0;
+	private boolean runTimer = true; // true at startup; false when starting to listen to administrator
+	private int ellipsisHowMany = 1; // initial value
+
+	// Font settings
+	private Font bigFont;
+	private Font smallFont;
+	private Font smallestFont;
+	private Font font;
+
 	// CONNECTION FUNCTIONALITY METHODS -- DO NOT TOUCH THESE!
 	// -----------------------------------------------------------------------------
 	
@@ -50,8 +75,9 @@ public class AIFramework {
 	 * @return none
 	 * @exception SQLException if a database access error occurs
 	 */
-	public void connect() {
-	
+	public boolean connect() {
+
+		boolean connected = false;
 		// System.out.println("Establishing a connection to " + Admin.returnAdminUrl() + "...");
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver"); // loads up driver to fully establish a potential connection can happen.
@@ -63,12 +89,14 @@ public class AIFramework {
 			
 			myConn = DriverManager.getConnection(url, admin, pwd);
 //			load();
+			connected = true;
 			
 		} catch (SQLException e) {
 			throw new IllegalStateException("Error connecting to neural database.", e);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
+		return connected;
 		
 	}
 
@@ -856,18 +884,7 @@ public class AIFramework {
 		}
 		return wordsMap;
 	}
-	
-	/**
-	 * Autonomous word learning algorithm -- machine learning algorithm
-	 *
-	 * @param none
-	 * @return none
-	 * @exception SQLException if a database or query error occurs.
-	 * 
-	 */
-	public void autonomousLearningAlgorithm(String message) {
-		// ...
-	}
+
 	/**
 	 * Greeting algorithm determining what phrase to say to the administrator.
 	 *
@@ -898,7 +915,7 @@ public class AIFramework {
 				} else if ((currentHour >= 6 && currentHour < 12) && (greetings.get(i).equals("Good evening"))) {
 					// select good morning
 					greeting = greetings.get(i);
-				} else {
+				} else if (currentHour >= 12 && currentHour < 18) {
 					// good afternoon
 					greeting = greetings.get(i);
 				}
@@ -920,12 +937,65 @@ public class AIFramework {
 	}
 	
 	// -----------------------------------------------------------------------------
-	
+
 	// Driver method
 	public AIFramework() {
-		
+
+		// Load Roboto font here
+		try {
+			String filepath = "/Users/nam/IdeaProjects/ai/resources/Minecraft.ttf";
+			font = Font.createFont(Font.TRUETYPE_FONT, new FileInputStream(new File(filepath)));
+			bigFont = font.deriveFont(50f);
+			smallFont = font.deriveFont(36f);
+			smallestFont = font.deriveFont(18f);
+		} catch (IOException|FontFormatException e) {
+			e.printStackTrace();
+		}
+
+		frame = new JFrame("The Machine");
+		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		frame.setUndecorated(true);
+		frame.add(this);
+		frame.getContentPane().setBackground(Color.WHITE);
+		frame.setVisible(true);
+		frame.setResizable(false);
+//		System.out.println(frame.getContentPane().getWidth());
+//		System.out.println(frame.getContentPane().getHeight());
+		frame.addWindowListener(
+				new WindowAdapter() {
+					public void windowClosing(WindowEvent e) {System.exit(0);}
+				});
+
+		render();
+		addKeyListener(this);
+
+		int delay = 50; //milliseconds - started at 1000
+		ActionListener taskPerformer = new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+
+				if (screenName.equals("loading")) { // if load-up has just begun
+					if (runTimer == true) {
+						textTimerValue += 10;
+					}
+					// these conditions here will trigger different sequences when the textTimerValue is equal to a certain value
+					if (textTimerValue < 500) {
+						loadUpSequence = 1; // show connection established
+					} else if (textTimerValue > 500 && textTimerValue < 2500) {
+						loadUpSequence = 2; // show mapping protected words
+					} else if (textTimerValue > 2500 && textTimerValue < 3500) {
+						loadUpSequence = 3; // show greeting
+						runTimer = false; // stop timer
+					} else if (runProgram == false) {
+						loadUpSequence = 314;
+					}
+				}
+				render();
+			}
+		};
+		new Timer(delay, taskPerformer).start();
+		requestFocusInWindow();
+
 		// loadup functions
-		
 		connect();
 		
 		Scanner sc = new Scanner(System.in);
@@ -957,6 +1027,12 @@ public class AIFramework {
 			}
 			if (inputtedText.contains("bye") || inputtedText.contains("Good night") || inputtedText.contains("exit")) { // Exit method
 				System.out.println("Bye, " + whoisAdmin());
+				runProgram = false;
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 				terminate();
 			}
 			if (inputtedText.contains("create") && inputtedText.contains("table")) { // Creates a table
@@ -992,5 +1068,95 @@ public class AIFramework {
 				}
 			}
 		}
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+
+	}
+
+	public void render() { // taken from the Asteroids game to help with rendering frame rate
+		//renders # of frames in the background then shows them in order
+		//the parameter is the number of frames, that are cycled through
+		createBufferStrategy(2);
+		strategy = getBufferStrategy();
+		Graphics g = null;
+		do {
+			try{
+				g =  strategy.getDrawGraphics();
+
+			} finally {
+				paint(g);
+			}
+			strategy.show();
+			g.dispose();
+		} while (strategy.contentsLost());
+		Toolkit.getDefaultToolkit().sync();
+	}
+
+	// UI painting
+	public void paint (Graphics g) {
+
+		// Centering debugging
+//		Graphics2D g2d = (Graphics2D) g.create();
+//		g2d.setColor(Color.RED);
+//		g2d.drawLine(getWidth() / 2, 0, getWidth() / 2, getHeight());
+//		g2d.drawLine(0, getHeight() / 2, getWidth(), getHeight() / 2);
+//		g2d.dispose();
+		g.setFont(smallFont);
+		g.setColor(Color.BLACK);
+		int width = frame.getContentPane().getWidth();
+		int height = frame.getContentPane().getHeight();
+		Scanner sc = new Scanner(System.in);
+
+		// Handle load-up
+
+		// Sequence: establish connection
+		if (loadUpSequence == 1 || screenName.equalsIgnoreCase("loading")) {
+			String text = "connection established";
+			g.drawString(text, width/3, height/2);
+		}
+
+		// Sequence: map protected words
+		if (loadUpSequence == 2) {
+			String text = "mapping protected words";
+			g.setFont(smallestFont);
+			g.drawString(text, 560, (height/2)+30);
+
+			String ellipsis = "...";
+
+			if (textTimerValue % 115 == 0 && ellipsisHowMany < 3) {
+				g.drawString(ellipsis.substring(0, ellipsisHowMany), 785, (height/2)+30);
+				ellipsisHowMany++;
+			} else if (ellipsisHowMany >= 3) {
+				g.drawString(ellipsis.substring(0, ellipsisHowMany), 785, (height/2)+30);
+				ellipsisHowMany = 1; // reset
+			}
+		} else if (loadUpSequence == 3) {
+			g.setFont(smallestFont);
+			String text = greetingAlgorithm(sc);
+			g.drawString(text, 575, (height/2)+30);
+		} else if (runProgram == false) {
+			g.setFont(smallestFont);
+			String text = "Bye, " + Admin.returnAdminIdentity();
+			g.drawString(text, 580, (height/2)+30);
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			terminate();
+		}
+		// Sequence: disable textTimer, listen to commands
 	}
 }

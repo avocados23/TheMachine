@@ -185,6 +185,15 @@ public class WordLearningAlgorithm {
         driver = new ChromeDriver();
         driver.get(link);
 
+        try {
+            synchronized (driver) {
+                driver.wait(5000);
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
         URL url = new URL(link); // casts String link into a URL object
         Scanner s = new Scanner(url.openStream());
 
