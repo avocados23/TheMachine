@@ -98,6 +98,7 @@ public class AIFramework {
 		ResultSet rs = selectQuery("SELECT name FROM `machineinfo`");
 
 		try {
+			rs.next();
 			machineName = rs.getString(1);
 		} catch (SQLException e) {
 			e.printStackTrace();
