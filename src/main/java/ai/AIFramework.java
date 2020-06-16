@@ -15,9 +15,8 @@ import java.util.ArrayList;
 
 
 public class AIFramework {
-	
-	private String name = "The Machine"; // default name
-	private String admin = ai.Admin.returnAdminIdentity();
+
+	private String admin = Admin.returnAdminIdentity();
 	private Connection myConn;
 
 	// CONNECTION FUNCTIONALITY METHODS -- DO NOT TOUCH THESE!
@@ -87,6 +86,26 @@ public class AIFramework {
 	}
 
 	/**
+	 * Returns the name of the Machine. Default name is "The Machine".
+	 *
+	 * @param none
+	 * @return String object of The Machine's designated name.
+	 * @exception SQLException if a database access error occurs
+	 */
+	public String machineName() {
+		connect();
+		String machineName = "";
+		ResultSet rs = selectQuery("SELECT name FROM `machineinfo`");
+
+		try {
+			machineName = rs.getString(1);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return machineName;
+	}
+
+	/**
 	 * Prints out the information within a List.
 	 *
 	 * @param List object.
@@ -149,7 +168,7 @@ public class AIFramework {
 	 * @exception none
 	 */
 	public String whatismyName() {
-		return name;
+		return machineName();
 	}
 
 	/**
@@ -162,7 +181,7 @@ public class AIFramework {
 	public void changeAIName(Scanner input) {
 		System.out.print("What would you like my new name to be? ");
 		String inputtedName = input.nextLine();
-		name = inputtedName;
+		updateQuery("UPDATE machineinfo SET name = '" + inputtedName + "' WHERE id = 1"); // there should only ever be one row.
 		//input.close();
 	}
 
@@ -916,7 +935,7 @@ public class AIFramework {
 		
 		Scanner sc = new Scanner(System.in);
 		System.out.println(greetingAlgorithm(sc));
-		
+
 		while (true) {
 			
 			// listen...
@@ -927,7 +946,7 @@ public class AIFramework {
 			
 			String inputtedText = sc.nextLine();
 			
-			wordLearningAlgorithm(sc, inputtedText);
+//			wordLearningAlgorithm(sc, inputtedText);
 			
 			// These are the contingency prompts
 			// We can revise the contingency prompts by forming it into a binary decision tree

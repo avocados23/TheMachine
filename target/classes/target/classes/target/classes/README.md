@@ -5,7 +5,7 @@
 [![Generic badge](https://img.shields.io/badge/selenium-3.141.59-green.svg)](https://shields.io/)
 
 
-This is my artificial intelligence side project that I created to practice and expand my knowledge on machine learning and algorithms. 
+This is my machine learning side project that I created to practice and expand my knowledge on the mentioned topic and of course, including algorithms. 
 It uses a MySQL database to store its data and then utilizes the functions and methods I have coded to sort that data out. 
 This also gave me practice into working with more advanced data structures, such as Trees and Maps. However, you may feel free to use another database platform, but you will have to adjust certain SQL queries to match the format of your desired database platform within the autonomous and non-autonomous methods within AIFramework.java.
 
@@ -18,13 +18,13 @@ You can clone my repository to a local remote folder within your computer throug
 ### Prerequisites
 
 You will need:
-* Java SE 11.0, minimum
-* MySQL
-* Git
-* A database client
-* Google Chrome
+* [Java](https://www.oracle.com/java/technologies/javase-downloads.html) SE 11.0, minimum
+* [MySQL](https://www.mysql.com/downloads/)
+* [Git](https://git-scm.com/downloads)
+* [A database client](https://www.sequelpro.com/)
+* [Google Chrome](https://www.google.com/chrome/)
 
-Currently, I am using IntelliJ IDEA to manage and track my Java packages and project. I am using Sequel Pro to manage the contents of my MySQL database as well. Google Chrome is also required as it is the browser of choice for The Machine when accessing information from the Internet.
+Currently, I am using [IntelliJ IDEA](https://www.jetbrains.com/idea/) to manage and track my Java packages and project. I am using Sequel Pro to manage the contents of my MySQL database as well. Google Chrome is also required as it is the browser of choice for The Machine when accessing information from the Internet.
 
 **It is heavily preferred that you use the IntelliJ IDEA for ease of dependency and external library management,** 
 ***because the following instructions I wrote on this README assume that you are using IntelliJ IDEA.***
@@ -35,7 +35,7 @@ This is because compared to IntelliJ, other IDEs such as Eclipse do not come wit
 
 This program utilizes several external libraries to run.
 * [JDBC (Java Database Connectivity)](https://dev.mysql.com/downloads/connector/j/)
-* Selenium WebDriver -- imported through Maven dependency
+* [Selenium WebDriver](https://www.selenium.dev/projects/) -- imported through Maven dependency
 
 ### Executable Files
 
@@ -104,14 +104,25 @@ I do not recognize the word whoami. Is this a typo or a new word?
 >> You are admin
 ```
 
+---
+
 ## Running the Test Suite
 
 The test suite was created so that The Machine could run each function autonomously to assess for any errors within
 the framework's code. This can be done by running the program through TestSuite.java's main method.
 
-(unfinished)
+## Word Learning Algorithm
 
----
+As this README is being updated on June 15th, 2020, the program is capable of learning words autonomously by passing it a .txt file from an online source. The word learning algorithm is located in WordLearningAlgorithm.java. To pass the online text file for the algorithm to read and add to its neural network, go to the main method of the Java program and pass it in the dedicated parameter.
+
+```
+try {
+  new WordLearningAlgorithm(YOUR TEXT FILE HERE)
+} catch (IOException e) {
+  ...
+ ```
+ 
+ more coming soon...
 
 ## License
 
