@@ -931,6 +931,7 @@ public class AIFramework {
 			
 			// These are the contingency prompts
 			// We can revise the contingency prompts by forming it into a binary decision tree
+			// Revise into switch statements
 			
 			if (inputtedText.contains("change") && inputtedText.contains("name")) { // Changing the program's default name
 				changeAIName(sc);

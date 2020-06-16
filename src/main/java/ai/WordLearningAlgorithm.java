@@ -257,27 +257,43 @@ public class WordLearningAlgorithm {
                              typeOfWord = type.substring(0, firstWhiteSpace);
                          }
 
-                         // Decision handling
-                         if (typeOfWord.equalsIgnoreCase("noun")) {
-                             typesOfWord.append("0");
-                         } else if (typeOfWord.equalsIgnoreCase("verb")) {
-                             typesOfWord.append("1");
-                         } else if (typeOfWord.equalsIgnoreCase("adjective")) {
-                             typesOfWord.append("2");
-                         } else if (typeOfWord.equalsIgnoreCase("adverb")) {
-                             typesOfWord.append("3");
-                         } else if (typeOfWord.equalsIgnoreCase("pronoun")) {
-                             typesOfWord.append("4");
-                         } else if (typeOfWord.equalsIgnoreCase("preposition")) {
-                             typesOfWord.append("5");
-                         } else if (typeOfWord.equalsIgnoreCase("determiner")) {
-                             typesOfWord.append("6");
-                         } else if (typeOfWord.equalsIgnoreCase("interjection")) {
-                             typesOfWord.append("7");
-                             // Ignore the following cases...
-                         } else if (typeOfWord.contains("article") || typeOfWord.contains("idioms")) {
-                             continue;
+                         // typeOfWord switch statement handling
+                         // convert to lowercase during comparison test
+
+                         switch(typeOfWord.toLowerCase()) {
+                             case "noun":
+                                 typesOfWord.append("0");
+                                 break;
+
+                             case "verb":
+                                 typesOfWord.append("1");
+                                 break;
+
+                             case "adjective":
+                                 typesOfWord.append("2");
+                                 break;
+
+                             case "adverb":
+                                 typesOfWord.append("3");
+                                 break;
+
+                             case "pronoun":
+                                 typesOfWord.append("4");
+                                 break;
+
+                             case "preposition":
+                                 typesOfWord.append("5");
+                                 break;
+
+                             case "determiner":
+                                 typesOfWord.append("6");
+                                 break;
+
+                             case "interjection":
+                                 typesOfWord.append("7");
+                                 break;
                          }
+
                          synchronized (driver) {
                              driver.wait(500);
                          }
