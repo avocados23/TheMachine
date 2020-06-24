@@ -36,6 +36,7 @@ This is because compared to IntelliJ, other IDEs such as Eclipse do not come wit
 This program utilizes several external libraries to run.
 * [JDBC (Java Database Connectivity)](https://dev.mysql.com/downloads/connector/j/)
 * [Selenium WebDriver](https://www.selenium.dev/projects/) -- imported through Maven dependency
+* [Apache Commons Library](https://mvnrepository.com/artifact/org.apache.commons/commons-collections4) -- imported through Maven dependency
 
 ### Executable Files
 
