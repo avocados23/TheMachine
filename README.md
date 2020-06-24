@@ -131,3 +131,7 @@ try {
 [![GPLv3 license](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://github.com/n1413704/ai/blob/master/LICENSE)
 
 Distributed under the GNU Lesser General Public License v3.0. See LICENSE for more information.
+
+## Acknowledgments
+
+* [Ryan Stansifer](http://cs.fit.edu/~ryan/) for the Permute.java algorithm
