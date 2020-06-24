@@ -84,9 +84,11 @@ Before running the program, deactivate the word learning algorithm within the AI
 ``` 
 CREATE TABLE `greetings` (phrase VARCHAR (255), ID int AUTO_INCREMENT, PRIMARY KEY (ID))
 CREATE TABLE `words` (word VARCHAR (255), type int, tense int, ID AUTO_INCREMENT, frequency int, protected int, command VARCHAR (255), PRIMARY KEY (ID))
+CREATE TABLE `machineinfo` (name VARCHAR (255), ID int AUTO_INCREMENT, PRIMARY KEY (ID))
+INSERT INTO `machineinfo` (name) VALUES ("The Machine")
 ```
 
-You may run these through a query on your database client or through the console of the program. It is up to you.
+Run these through your database client's query line.
 
 ### Setting Up Your Commands
 
