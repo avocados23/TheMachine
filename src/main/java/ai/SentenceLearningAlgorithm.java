@@ -156,6 +156,7 @@ public class SentenceLearningAlgorithm extends AlgorithmMethods {
                 String query = "INSERT INTO `sentencestructure_memory` (structure) VALUES (" + finalOrder + ")";
                 System.out.println(query);
                 updateQuery(query);
+                break;
             }
             sentences.next();
         }
