@@ -1,4 +1,11 @@
-// Genetic programming algorithm created by Nam Tran
+// DEPRECATED BUT ITS SOURCE CODE WILL BE PRESERVED UNTIL SOMEONE ELSE WANTS TO FIX THIS.
+
+// Problems with this algorithm:
+// 1) Grammarly.com misidentifies improper sentences as proper sentences, and thus the Machine learns incorrect grammar.
+// 2) There seems to be a IndexOutOfBoundsException that frequently pops up, and I have yet to identify the exact reason why.
+// 3) There also seems to be a heap error exception when looking for the whitespaces when trying to dissect the sentence towards the end.
+
+// ----------------------------------------------------------------------------------------------------------------------------------------
 // This program will use the library of words it knows to form a sentence, and will not stop until it successfully registers a proper sentence.
 // Note: if there are missing indexes (with primary key IDs, an SQLException will be thrown.
 
@@ -18,7 +25,84 @@ public class SentenceLearningAlgorithm extends AlgorithmMethods {
 
     private WebDriver driver;
     private Connection myConn;
-    private final String link = "https://www.gingersoftware.com/grammarcheck";
+    private final String link = "https://www.grammarly.com/grammar-check";
+
+    /**
+     * Checks if a LinkedList<Object> contains duplicates within the List
+     *
+     * @param LinkedList<Object> list
+     * @return true if it does contain duplicates; false if it does not
+     */
+    private boolean checkForDuplicates(LinkedList<String> list) {
+        // Dump the LinkedList into a Set
+        Set<String> set = new HashSet<String>(list);
+        // returns boolean
+        return set.size() < list.size();
+    }
+
+    private Set<String> addNewWord(Set<String> set, String word) throws SQLException {
+
+        int wordToPick = ThreadLocalRandom.current().nextInt(1, tableSize("words") + 1);
+        ResultSet rs = selectQuery("SELECT word, type FROM `words` WHERE id = " + wordToPick);
+        rs.next();
+
+        // If the Set contains the word that is trying to be added
+        if (set.contains(word)) {
+            // Generate a new word
+            set.add(rs.getString("word"));
+            addNewWord(set, rs.getString ("word"));
+        } else {
+            return set;
+        }
+        return set;
+    }
+
+    /**
+     * Replaces all the duplicates within the LinkedList<String> words.
+     *
+     * @param LinkedList<String> list containing the word pool
+     * @param list
+     * @return String object that contains the primary key's column name
+     * @exception SQLException if a database or query error occurs
+     *
+     */
+    private LinkedList<String> replaceDuplicates(LinkedList<String> list) {
+
+        // Remember the size of the original LinkedList so that the method knows how many new words to add
+        final int n = list.size();
+
+        // if the List does contain duplicates
+        if (checkForDuplicates(list)) {
+            // Convert the list into a HashSet to remove duplicates
+            Set<String> set = new HashSet<String>(list);
+
+            // Find number of words required to make a new list
+            int numWordsRemoved = n - set.size();
+
+            while (n < set.size()) {
+                int wordToPick = ThreadLocalRandom.current().nextInt(1, tableSize("words") + 1); // index of word to use
+                ResultSet rs = selectQuery("SELECT word, type FROM `words` WHERE id = " + wordToPick);
+
+                try {
+                    rs.next();
+                    String newWord = rs.getString("word");
+                    int newWordType = rs.getInt("type");
+
+                    // case: if this word actually already exists in the Set, find a new one
+                    // note: this is a recursive method
+                    addNewWord(set, newWord);
+                } catch (SQLException e) {
+                    throw new IllegalStateException("Something went wrong in adding a new unique word.", e);
+                }
+            }
+
+            // Now, convert Set back into the List
+            return new LinkedList<String>(set);
+        } else {
+            // the List does not contain duplicates
+            return list;
+        }
+    }
 
     public SentenceLearningAlgorithm() throws IOException, InterruptedException { // wordSize represents how many words will be used to form a sentence.
         connect(); // Establishes a connection to the database
@@ -35,9 +119,13 @@ public class SentenceLearningAlgorithm extends AlgorithmMethods {
 //        System.out.println("Sentence size: " + sentenceSize);
 //        System.out.println("Size of table `words`: " + size);
 
+        System.setProperty("webdriver.chrome.driver", "resources/chromedriver"); // connects the code to UNIX executable
+        driver = new ChromeDriver();
+
         for (int j=0; j<sentenceSize; j++) {
             int wordToPick = ThreadLocalRandom.current().nextInt(1, size + 1); // index of word to use
             ResultSet rs = selectQuery("SELECT word, type FROM words WHERE id = " + wordToPick); // retrieves the word and type from the generated index
+            boolean duplicate = false;
 
             // Debugging purposes
 //            System.out.println("Chosen word at index " + wordToPick);
@@ -60,12 +148,14 @@ public class SentenceLearningAlgorithm extends AlgorithmMethods {
                 e.printStackTrace();
             }
         }
+        LinkedList<String> modified = replaceDuplicates(words);
 
-        // Spit out the words that will be utilized
-        System.out.println(words.toString());
+        // Spit out the old words that would be utilized
+        System.out.println("Original set of words: " + words.toString());
+        System.out.println("New set of words: " + modified.toString());
 
         // Permutation algorithm here
-        Permute sentences = new Permute(words.toArray());
+        Permute sentences = new Permute(modified.toArray());
 
         int permSize = 0;
         while(sentences.hasNext()) {
@@ -80,22 +170,22 @@ public class SentenceLearningAlgorithm extends AlgorithmMethods {
             String capitalizedWord = word.substring(0,1).toUpperCase() + word.substring(1);
             sentence.append(capitalizedWord);
 
-            for (int j=1; j<sentenceSize; j++) {
-                if (j <= sentenceSize-1) {
+            for (int j=1; j<modified.size(); j++) {
+                if (j <= modified.size()-1) {
                     sentence.append(" ");
                 }
                 sentence.append(word_pool[j]);
             }
             sentence.append(".");
-            System.out.println(sentence.toString());
 
             // Open up Google Chrome and begin entering
-            System.setProperty("webdriver.chrome.driver", "resources/chromedriver"); // connects the code to UNIX executable
-            driver = new ChromeDriver();
             driver.get(link);
 
-            WebElement input = driver.findElement(By.className("ginger-grammarchecker-panel-area ginger-grammarchecker-panel-area-input"));
-            WebElement submit = driver.findElement(By.className("btn btn-primary btn-lg ginger-grammarchecker-try"));
+            synchronized (driver) {
+                driver.wait(1000);
+            }
+            WebElement input = driver.findElement(By.className("_3CFUFrV"));
+            WebElement submit = driver.findElement(By.className("_3moEmWh"));
             input.sendKeys(sentence);
             submit.click();
 
@@ -104,11 +194,12 @@ public class SentenceLearningAlgorithm extends AlgorithmMethods {
                 driver.wait(2000);
             }
 
-            List<WebElement> successMsg = driver.findElements(By.className("ginger-grammarchecker-panel-area-suggestion-empty ginger-grammarchecker-panel-area-suggestion-nomistake"));
+            List<WebElement> successMsg = driver.findElements(By.className("cNZCfE5"));
             List<String> keys = new ArrayList<String>();
             List<Integer> orderList = new ArrayList<Integer>();
             StringBuilder orderStructure = new StringBuilder();
-
+            System.out.println(successMsg.size());
+            System.out.println("Sentence inputted; " + sentence.toString());
             if (successMsg.size() > 0) {
                 // Insert the keys from the HashedBidiMap into the ArrayList
                 for (String key: wordTypeMap.keySet()) {
@@ -116,7 +207,7 @@ public class SentenceLearningAlgorithm extends AlgorithmMethods {
                 }
 
                 // Retrieve the indexes of each word and place them into an ArrayList
-                for (int i=0; i<sentenceSize; i++) {
+                for (int i=0; i<modified.size()-1; i++) {
                     orderList.add(sentence.indexOf(keys.get(i)));
                 }
 
@@ -129,7 +220,9 @@ public class SentenceLearningAlgorithm extends AlgorithmMethods {
 
                 while (indexWhiteSpace >= 0) {
                     indexList.add(indexWhiteSpace);
+                    System.out.println("List size: " + indexList.size());
                 }
+
 
                 // Now, reorder the original ArrayList of words in the proper word
                 for (int m=0; m<keys.size(); m++) {
@@ -160,7 +253,7 @@ public class SentenceLearningAlgorithm extends AlgorithmMethods {
             }
             sentences.next();
         }
-        System.out.println("There are " + permSize + " possible permutations with these " + sentenceSize + " words.");
+        System.out.println("There are " + permSize + " possible permutations with these " + modified.size() + " words.");
 
     }
     public static void main (String[] args) throws IOException, InterruptedException {

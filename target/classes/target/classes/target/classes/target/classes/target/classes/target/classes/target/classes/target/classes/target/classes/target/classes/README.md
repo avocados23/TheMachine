@@ -36,6 +36,7 @@ This is because compared to IntelliJ, other IDEs such as Eclipse do not come wit
 This program utilizes several external libraries to run.
 * [JDBC (Java Database Connectivity)](https://dev.mysql.com/downloads/connector/j/)
 * [Selenium WebDriver](https://www.selenium.dev/projects/) -- imported through Maven dependency
+* [Apache Commons Library](https://mvnrepository.com/artifact/org.apache.commons/commons-collections4) -- imported through Maven dependency
 
 ### Executable Files
 
@@ -131,3 +132,7 @@ try {
 [![GPLv3 license](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://github.com/n1413704/ai/blob/master/LICENSE)
 
 Distributed under the GNU Lesser General Public License v3.0. See LICENSE for more information.
+
+## Acknowledgments
+
+* [Ryan Stansifer](http://cs.fit.edu/~ryan/) for the Permute.java algorithm
