@@ -37,6 +37,8 @@ This program utilizes several external libraries to run.
 * [JDBC (Java Database Connectivity)](https://dev.mysql.com/downloads/connector/j/)
 * [Selenium WebDriver](https://www.selenium.dev/projects/) -- imported through Maven dependency
 * [Apache Commons Library](https://mvnrepository.com/artifact/org.apache.commons/commons-collections4) -- imported through Maven dependency
+* [Stanford CoreNLP](https://stanfordnlp.github.io/CoreNLP/index.html#download) -- download it from here, as Maven dependency does not include the models JAR file for some reason
+* [SLF4J Library](http://www.slf4j.org/download.html) -- imported through Maven dependency
 
 ### Executable Files
 
