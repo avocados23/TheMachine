@@ -1,0 +1,17 @@
+<component name="libraryTable">
+  <library name="stanford-opennlp">
+    <CLASSES>
+      <root url="file://$USER_HOME$/Downloads/stanford-corenlp-4.0.0" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/Downloads/jsqlparser-0.7.0.jar!/jsqlparser/docs" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/Downloads/jsqlparser-0.7.0.jar!/jsqlparser/src" />
+      <root url="jar://$USER_HOME$/Downloads/jsqlparser-0.7.0.jar!/jsqlparser/testsrc" />
+      <root url="file://$USER_HOME$/Downloads/stanford-corenlp-4.0.0" />
+    </SOURCES>
+    <jarDirectory url="file://$USER_HOME$/Downloads/stanford-corenlp-4.0.0" recursive="false" />
+    <jarDirectory url="file://$USER_HOME$/Downloads/stanford-corenlp-4.0.0" recursive="false" type="SOURCES" />
+  </library>
+</component>
